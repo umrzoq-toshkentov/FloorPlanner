@@ -266,6 +266,9 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
       <button class="btn chip on" data-layer="furn" data-en="Furniture">家具</button>
       <button class="btn chip" data-layer="grid" data-en="Grid">网格</button>
       <button class="btn chip" data-layer="bearing" data-en="Bearing walls">承重墙</button>
+      <button class="btn chip" data-layer="elec" title="Rozetkalar va maxsus liniyalar">Elektr</button>
+      <button class="btn chip" data-layer="light" title="Chiroqlar, LED va vyklyuchatellar">Yoritish</button>
+      <button class="btn chip" data-layer="plumb" title="Suv, kanalizatsiya, isitish va issiq pol">Santexnika</button>
       <button class="btn chip on" data-layer="wallSnap" title="拖动家具时贴墙吸附" data-en-title="Snap furniture to walls while dragging" data-en="Wall snap">贴墙吸附</button>
     </div>
     <div class="grp only3d">
@@ -311,6 +314,7 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
       <g id="gFurn"></g>
       <g id="gWalls"></g>
       <g id="gOpen"></g>
+      <g id="gEng" pointer-events="none"></g>
       <g id="gLabels" pointer-events="none"></g>
       <g id="gDims" pointer-events="none"></g>
       <g id="gMeasure" pointer-events="none"></g>
@@ -547,7 +551,7 @@ const svg = $('#plan');
 /* ======================= 状态 / 历史 / 存储 ======================= */
 let state = load() || defaultState();
 const ui = {tool:'select', sel:null, mA:null, mCur:null,
-  layers:{dims:true, labels:true, furn:true, grid:false, bearing:false, wallSnap:true}};
+  layers:{dims:true, labels:true, furn:true, grid:false, bearing:false, wallSnap:true, elec:false, light:false, plumb:false}};
 let view = {x0:0, y0:0, s:.06};
 const undoStack = [], redoStack = [];
 
@@ -843,8 +847,80 @@ function renderSel(){
   $('#gSel').innerHTML = s;
 }
 
+
+/* ======================= Muhandislik qatlamlari: Elektr / Yoritish / Santexnika ======================= */
+const ENG = {
+  sockets: [[900,1150,2],[3000,2700,1],[5550,850,1],[6430,850,2],[7290,850,2],[8860,850,2],[8100,1100,1],[9450,2300,1],
+    [6550,4500,4],[6550,5800,2],[9450,3900,1],[9450,6500,1],[250,3800,2],[250,6000,2],[2300,6850,2],[3250,4900,2],
+    [3800,4550,1],[6050,6450,3],[5050,1150,1],[2900,1000,1],[8500,7700,1]],
+  special: [[2450,300,150,450,'Shchit'],[2800,1800,2300,300,'Kanalli konditsioner (shiftda)',1],[20,6250,200,850,'Konditsioner'],
+    [5300,6980,850,200,'Konditsioner'],[7900,150,400,300,'Plita 6 mm²'],[9450,150,250,400,'Kotyol']],
+  spots: [[1143,571],[2000,571],[2086,2000],[3000,2300],[4000,2300],[5000,2300],[3300,1100],[4300,1100],[1000,1850],
+    [6286,1100],[7429,1100],[8571,1100],[8086,7900],[60,3830],[60,6080]],
+  pendants: [[7800,2125],[7600,5200],[1900,4950],[4900,5200]],
+  led: ['M5850 650 L9650 650','M9600 200 L9600 7100','M6330 4200 L6330 6000','M200 7100 L3400 7100','M3650 7100 L6200 7100','M2780 900 L2780 1600','M650 400 L650 900'],
+  switches: [[2150,150],[4500,1850],[1650,1400],[5350,1850,'5 tugma: oshxona, stol, zal, parda LED, TV LED'],[5350,2700],[6700,6950],[3250,3050],[350,3650],[350,6200],[4700,3150]],
+  cold: ['M5000 371 L5000 400','M5150 450 L6171 450 L6171 514','M5150 500 L9400 500 L9400 1086','M4550 470 L4400 470','M4600 580 L4600 800 L3250 800 L3250 1250','M5100 580 L5100 900','M4900 580 L4900 2343 L1714 2343 L1714 2057 L714 2057'],
+  hot: ['M9543 1086 L9543 1314 L5260 1314 L5260 560 L5150 560','M6314 1314 L6314 514','M4550 540 L4400 540','M4680 580 L4680 720 L3330 720 L3330 1200','M4820 580 L4820 2429 L1800 2429 L1800 2143 L714 2143'],
+  sewer: ['M6229 600 L6229 680 L5300 680 L5300 330 L5100 330','M4300 400 L4300 650 L5000 650 L5000 386','M3200 1400 L3450 1400 L3450 1620 L5300 1620 L5300 680','M4800 1450 L4800 1620','M400 2343 L400 2700 L200 2700'],
+  heat: ['M9600 1086 L9600 1486 L5257 1486 L5257 1829 L5143 1829','M4686 1943 L4686 2514 L2857 2514 L2857 6914 L2114 6914','M5029 1943 L5029 2629 L6171 2629 L6171 6914 L5057 6914','M5086 2000 L5086 2286 L6514 2286 L6514 4000 L9330 4000 L9330 4343','M6514 2857 L9330 2857 L9330 2143'],
+  radiators: [[857,6850,1229,130],[3800,6850,1229,130],[9330,914,130,1229],[9330,4343,130,1229],[3250,1560,300,90]],
+  risers: [[5000,286],[143,2743]],
+  loops: [['Kontur 1',7400,800],['Kontur 2',2150,1150],['Kontur 3',3600,500]],
+};
+function renderEng(){
+  const L = ui.layers, g = $('#gEng'), on = L.elec || L.light || L.plumb;
+  $('#gFurn').style.opacity = on ? .3 : 1;
+  if (!on){ g.innerHTML = ''; return; }
+  const T = (x,y,t,c,fs=130,a='middle',w='600') => `<text x="${x}" y="${y}" font-size="${fs}" font-weight="${w}" text-anchor="${a}" fill="${c}" paint-order="stroke" stroke="#fff" stroke-width="40">${esc(t)}</text>`;
+  const path = (d,c,w,dash) => `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linejoin="round"${dash?` stroke-dasharray="${dash}"`:''}/>`;
+  let s = '', leg = [];
+  if (L.plumb){
+    const hz = ['bath','hall','kitchen'].map(id => ROOMS.find(r => r.id===id)).filter(Boolean);
+    hz.forEach(r => s += `<polygon points="${r.poly.map(p=>p.join(',')).join(' ')}" fill="#e0662b" fill-opacity=".1"/>`);
+    ENG.sewer.forEach(d => s += path(d,'#6b6b6b',80,'200 80'));
+    ENG.heat.forEach(d => s += path(d,'#e0662b',40,'120 60'));
+    ENG.cold.forEach(d => s += path(d,'#2f80ed',40));
+    ENG.hot.forEach(d => s += path(d,'#d6457a',40));
+    ENG.radiators.forEach(([x,y,w,h]) => s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#f8c9b0" stroke="#e0662b" stroke-width="16"/>`);
+    s += `<rect x="4550" y="400" width="600" height="180" fill="#d5e6fb" stroke="#2f80ed" stroke-width="16"/>` + `<rect x="4686" y="1771" width="457" height="229" fill="#f8c9b0" stroke="#e0662b" stroke-width="16"/>`;
+    s += `<rect x="9450" y="150" width="250" height="400" fill="#e0662b"/>`;
+    ENG.risers.forEach(([x,y]) => s += `<circle cx="${x}" cy="${y}" r="100" fill="#26241f"/>`);
+    ENG.loops.forEach(([t,x,y]) => s += T(x,y,t,'#c4501c',140));
+    leg.push(['line','#2f80ed','Sovuq suv'],['line','#d6457a','Issiq suv'],['dash','#6b6b6b','Kanalizatsiya'],['dash','#e0662b','Isitish'],['box','#f8c9b0','Radiator / kollektor'],['dot','#26241f','Stoyak']);
+  }
+  if (L.light){
+    ENG.led.forEach(d => s += path(d,'#e39a26',50,'140 70'));
+    ENG.spots.forEach(([x,y]) => s += `<circle cx="${x}" cy="${y}" r="110" fill="#fdecc8" stroke="#e39a26" stroke-width="20"/>`);
+    ENG.pendants.forEach(([x,y]) => s += `<circle cx="${x}" cy="${y}" r="240" fill="#fdecc8" stroke="#e39a26" stroke-width="26"/>`);
+    ENG.switches.forEach(([x,y,t]) => { s += `<rect x="${x-110}" y="${y-110}" width="220" height="220" fill="#e6dcf5" stroke="#7f59bf" stroke-width="18"/>`; if (t) s += T(x+200,y+40,t,'#7f59bf',110,'start','500'); });
+    leg.push(['dot','#e39a26','Spot / bra'],['big','#e39a26','Osma chiroq'],['dash','#e39a26','Yashirin LED'],['sq','#7f59bf','Vyklyuchatel (900 mm)']);
+  }
+  if (L.elec){
+    ENG.special.forEach(([x,y,w,h,t,dash]) => { s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#e6dcf5" stroke="#7f59bf" stroke-width="18"${dash?' stroke-dasharray="80 50"':''}/>`;
+      const vert = h > w; s += T(vert ? x+w+60 : x+w/2, vert ? y+h/2 : (y+h+170), t, '#7f59bf', 110, vert ? 'start' : 'middle', '500'); });
+    ENG.sockets.forEach(([x,y,n]) => s += `<circle cx="${x}" cy="${y}" r="140" fill="#dcf2f0" stroke="#1a8c87" stroke-width="18"/><text x="${x}" y="${y+50}" font-size="140" font-weight="700" text-anchor="middle" fill="#1a8c87">${n}</text>`);
+    leg.push(['sock','#1a8c87',`Rozetka (soni) — jami ${ENG.sockets.reduce((a,v)=>a+v[2],0)} ta`],['sq','#7f59bf','Maxsus liniya']);
+  }
+  // legend under the plan
+  let lx = 0, ly = 7750;
+  leg.forEach(([k,c,t]) => {
+    const wd = 380 + t.length*70 + 250; if (lx > 0 && lx + wd > 6400){ lx = 0; ly += 330; }
+    const sw = k==='line' ? `<line x1="${lx}" y1="${ly}" x2="${lx+300}" y2="${ly}" stroke="${c}" stroke-width="50"/>`
+      : k==='dash' ? `<line x1="${lx}" y1="${ly}" x2="${lx+300}" y2="${ly}" stroke="${c}" stroke-width="60" stroke-dasharray="100 50"/>`
+      : k==='box' ? `<rect x="${lx}" y="${ly-80}" width="300" height="160" fill="${c}" stroke="#e0662b" stroke-width="16"/>`
+      : k==='sq' ? `<rect x="${lx+60}" y="${ly-90}" width="180" height="180" fill="#e6dcf5" stroke="${c}" stroke-width="18"/>`
+      : k==='sock' ? `<circle cx="${lx+150}" cy="${ly}" r="110" fill="#dcf2f0" stroke="${c}" stroke-width="18"/>`
+      : k==='big' ? `<circle cx="${lx+150}" cy="${ly}" r="140" fill="#fdecc8" stroke="${c}" stroke-width="22"/>`
+      : `<circle cx="${lx+150}" cy="${ly}" r="90" fill="${c==='#26241f'?c:'#fdecc8'}" stroke="${c}" stroke-width="18"/>`;
+    s += sw + T(lx+380, ly+45, t, '#3d3a34', 130, 'start', '500');
+    lx += wd;
+  });
+  g.innerHTML = s;
+}
+
 function renderAll(){
-  renderGrid(); renderRooms(); renderFurn(); renderWalls(); renderLabels(); renderMeasure(); renderSel(); renderPanel(); updateHeader();
+  renderGrid(); renderRooms(); renderFurn(); renderWalls(); renderEng(); renderLabels(); renderMeasure(); renderSel(); renderPanel(); updateHeader();
   window.View3D?.sync();
 }
 
