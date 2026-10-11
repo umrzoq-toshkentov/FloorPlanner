@@ -429,8 +429,8 @@ const WINS = [
 // Eshiklar: o'yiq, sharnir nuqtasi, yopiq yo'nalish, ochilish yo'nalishi, eni
 const DOORS = [
   {name:'Kirish eshigi',rect:[980,-240,1970,0],h:[1970,-240],c:[-1,0],o:[0,-1],len:990,entry:true},
-  {name:'Vanna eshigi',rect:[3600,1650,4400,1750],h:[4400,1650],c:[-1,0],o:[0,-1],len:800},
-  {name:'WC eshigi',rect:[1450,1500,1550,2300],h:[1450,2300],c:[0,-1],o:[-1,0],len:800},
+  {name:'Vanna eshigi',rect:[3600,1650,4400,1750],h:[3600,1750],c:[1,0],o:[0,1],len:800,closed:true},
+  {name:'WC eshigi',rect:[1450,1500,1550,2300],h:[1550,2300],c:[0,-1],o:[1,0],len:800,closed:true},
   {name:'Yotoqxona eshigi',rect:[2400,2850,3300,2950],h:[3300,2950],c:[-1,0],o:[0,1],len:900},
   {name:'Bolalar xonasi eshigi',rect:[3700,2950,4600,3050],h:[3700,3050],c:[1,0],o:[0,1],len:900},
 ];
@@ -464,7 +464,7 @@ const LIB = [
   {cat:'Yotoqxona', items:[
     ['bed','Ikki kishilik karavot 160',1600,2000,'#e8e0d2'],['bed','Ikki kishilik karavot 180',1800,2000,'#e8e0d2'],['bed','Bir kishilik karavot',900,2000,'#efe6d8'],
     ['crib','Chaqaloq karavoti',1250,700,'#efe3d0'],['nightstand','Tumbochka',450,400,'#5a3e2b'],['wardrobe','Garderob',1300,600,'#f2ece2'],
-    ['wardrobe','Katta garderob',2000,600,'#f2ece2'],['dresser','Komod / trelyaj',1000,450,'#5a3e2b'],['desk','Yozuv stoli',1200,600,'#5a3e2b'],
+    ['wardrobe','Katta garderob',2000,600,'#f2ece2'],['closet','Ochiq garderob (gardirobnaya)',1300,550,'#f2ece2'],['partition','Shisha to\u2018siq (yarim devor)',1750,80,'#c9a27a'],['dresser','Komod / trelyaj',1000,450,'#5a3e2b'],['desk','Yozuv stoli',1200,600,'#5a3e2b'],
     ['chair','Stul',450,480,'#cdbba5'],['bookshelf','Kitob javoni',800,300,'#5a3e2b']]},
   {cat:'Mehmonxona', items:[
     ['sofa','Uch kishilik divan',2200,950,'#ede6da'],['sofa','Ikki kishilik divan',1700,900,'#ede6da'],['cornersofa','Burchak divan',2800,1700,'#ede6da'],
@@ -474,7 +474,7 @@ const LIB = [
     ['plant','Gul',500,500,'#a9c39b'],['plant','Katta gul',700,700,'#9dbb8c']]},
   {cat:'Oshxona', items:[
     ['table','Ovqat stoli',1400,850,'#5a3e2b'],['table','Katta ovqat stoli',1800,900,'#5a3e2b'],['roundtable','Dumaloq stol',1100,1100,'#5a3e2b'],
-    ['chair','Ovqat stuli',450,480,'#e6dccb'],['island','Orolcha',1800,900,'#f1ede6'],['barstool','Bar stuli',420,420,'#5a3e2b'],
+    ['chair','Ovqat stuli',450,480,'#e6dccb'],['island','Bar stoli',1600,800,'#5a3e2b'],['island','Orolcha',1800,900,'#f1ede6'],['barstool','Bar stuli',420,420,'#5a3e2b'],
     ['counter','Oshxona stoleshnitsasi',1600,600,'#5a3e2b'],['stove','Induksion panel',600,520,'#2a2a2a'],['ksink','Rakovina',800,450,'#e1e6ea'],
     ['fridge','Muzlatgich',600,650,'#cdbba5'],['cabinet','Bufet',1600,400,'#5a3e2b']]},
   {cat:'Vanna va WC', items:[
@@ -505,16 +505,16 @@ function defaultFurniture(){ return [
   // Oshxona
   F('fridge','Muzlatgich',5550,325,600,650,0,'#cdbba5'), F('counter','Oshxona stoleshnitsasi',7775,300,3850,600,0,'#5a3e2b'),
   F('ksink','Rakovina',6250,300,800,450,0), F('stove','Induksion panel',8100,300,600,520,0), F('waterheater','Kotyol',9525,350,450,350,90),
-  F('table','Ovqat stoli',7800,2125,1400,850,0,'#5a3e2b'),
-  F('chair','Ovqat stuli',7450,1500,450,480,0,'#e6dccb'), F('chair','Ovqat stuli',8150,1500,450,480,0,'#e6dccb'),
-  F('chair','Ovqat stuli',7450,2750,450,480,180,'#e6dccb'), F('chair','Ovqat stuli',8150,2750,450,480,180,'#e6dccb'),
+  F('island','Bar stoli',7800,2000,1600,800,0,'#5a3e2b'),
+  F('barstool','Bar stuli',7250,2650,420,420,0,'#cdbba5'), F('barstool','Bar stuli',7800,2650,420,420,0,'#cdbba5'), F('barstool','Bar stuli',8350,2650,420,420,0,'#cdbba5'),
   // Mehmonxona
   F('rug','Gilam',7650,5200,1500,2400,0,'#f3eee6'), F('tvstand','TV konsoli',6575,5100,1800,450,270,'#5a3e2b'), F('tv','TV 65"',6410,5100,1450,80,270),
   F('sofa','Divan',8925,5200,2200,950,90,'#ede6da'), F('coffeetable','Jurnal stoli',7600,5200,1000,600,90,'#5a3e2b'),
   F('armchair','Baxmal kreslo',6925,3675,750,750,270,'#7a2e2e'), F('plant','Katta gul',9400,6900,700,700), F('floorlamp','Torsher',9450,3900,450,450,0,'#b08d57'),
   // Yotoqxona
-  F('wardrobe','Garderob',1050,2950,1300,600,0,'#f2ece2'), F('bed','Ikki kishilik karavot 160',1050,4950,1600,2000,270,'#e8e0d2'),
-  F('nightstand','Tumbochka',200,3825,450,400,270,'#5a3e2b'), F('nightstand','Tumbochka',200,6075,450,400,270,'#5a3e2b'),
+  F('closet','Ochiq garderob',1050,2925,1300,550,0,'#f2ece2'), F('closet','Ochiq garderob (tortmali)',275,3500,900,550,270,'#f2ece2'),
+  F('partition','Shisha to\u2018siq',875,4020,1750,80,0,'#c9a27a'),
+  F('bed','Ikki kishilik karavot 160',1050,4950,1600,2000,270,'#e8e0d2'), F('nightstand','Tumbochka',200,6075,450,400,270,'#5a3e2b'),
   F('acwall','Konditsioner',125,6700,900,250,270),
   // Bolalar xonasi
   F('bed','Bolalar karavoti',4000,5700,900,2000,0,'#efe6d8'), F('wardrobe','Garderob',5450,3350,1600,600,0,'#f2ece2'),
@@ -527,7 +527,7 @@ function defaultState(){
   return {furniture:defaultFurniture(), rooms, demolished:[], measures:[]};
 }
 
-const STORE = 'kv69-design-v1';
+const STORE = 'kv69-design-v2';
 function load(){
   try { const s = JSON.parse(localStorage.getItem(STORE)); if (s && Array.isArray(s.furniture)) return fixState(s); } catch(e) {}
   return null;
@@ -640,6 +640,12 @@ function furnSVG(t,w,d,c){
       for (let hx = x+160; hx < x+w-100; hx += 180) s += ln(hx-45,-d*.28,hx+45,d*.28,'opacity=".6"');
       return s;
     }
+    case 'closet': {
+      let s = rc(x,y,w,d,c) + ln(x+40,y+d*.55,x+w-40,y+d*.55);
+      for (let hx = x+120; hx < x+w-80; hx += 120) s += ln(hx,y+d*.2,hx,y+d*.9,'opacity=".5"');
+      return s;
+    }
+    case 'partition': return rc(x,y,w,d,c) + ln(x,0,x+w,0,'stroke-dasharray="60 40"');
     case 'cabinet': case 'shoecab': return rc(x,y,w,d,c) + ln(x,y+d,x+w,y);
     case 'dresser': return rc(x,y,w,d,c,'rx="20"') + rc(x+w*.2,y,w*.6,55,'#dfe9ee') + ec(0,d/2+180,160,140,shade(c,.9));
     case 'desk': return rc(x,y,w,d,c,'rx="20"') + rc(-w*.18,y+50,w*.36,45,'#555') + rc(-w*.14,y+d*.45,w*.28,d*.28,'#f4f4f4','rx="10"');
@@ -2107,13 +2113,46 @@ function buildFurniture(f){
       }
       break;
     }
-    case 'toilet': {
-      const cer = ceramic(), Rb = w*.45, zc = bz + d*.62, kz = (d*.37)/Rb, cm = chrome();
-      g.add(rbox(w*.88, .4, d*.24, cer, 0, .36, bz + d*.12, .04), rbox(w*.92, .03, d*.27, cer, 0, .76, bz + d*.135, .012), cyl(.022, .022, .006, cm, 0, .79, bz + d*.135, 20));
-      const ped = lathe([[0, 0], [Rb*.62, 0], [Rb*.66, .02], [Rb*.56, .12], [Rb*.62, .22], [Rb*.92, .33], [Rb, .37]], cer, 0, 0, zc, 40);
-      const seat = cyl(Rb*1.01, Rb*1.01, .022, mat('#f4f4f2', {roughness:.2}), 0, .37, zc, 40), lid = cyl(Rb*.97, Rb*.99, .02, mat('#f4f4f2', {roughness:.2}), 0, .392, zc, 40);
-      ped.scale.z = seat.scale.z = lid.scale.z = kz; g.add(ped, seat, lid);
-      [-1, 1].forEach(s => g.add(box(.03, .02, .03, cm, s*w*.18, .39, zc - Rb*kz - .005)));
+    case 'toilet': {   // osma unitaz: bachok devor ichidagi installyatsiyada, polga tegmaydi
+      const cer = ceramic(), cm = chrome(), inst = .2, Rb = w*.45, bd = d - inst, zc = bz + inst + bd*.55, kz = (bd*.45)/Rb, y0 = .22;
+      g.add(rbox(Math.max(w*1.6, .6), 1.12, inst, mat('#eeeae3', {roughness:.6}), 0, 0, bz + inst/2, .01));   // installyatsiya qutisi (kafel ostida)
+      g.add(rbox(.24, .16, .012, cm, 0, .95, bz + inst + .006, .01), box(.1, .12, .004, mat('#d9d9d6', {roughness:.3}), -.055, .97, bz + inst + .013), box(.1, .12, .004, mat('#d9d9d6', {roughness:.3}), .055, .97, bz + inst + .013));   // smyv tugmasi
+      const bowl = lathe([[0, 0], [Rb*.55, 0], [Rb*.8, .05], [Rb*.95, .13], [Rb, .18]], cer, 0, y0, zc, 40);
+      const neck = rbox(w*.6, .18, bd*.5, cer, 0, y0, bz + inst + bd*.25, .05);
+      const seat = cyl(Rb*1.01, Rb*1.01, .022, mat('#f4f4f2', {roughness:.2}), 0, y0 + .18, zc, 40), lid = cyl(Rb*.97, Rb*.99, .02, mat('#f4f4f2', {roughness:.2}), 0, y0 + .202, zc, 40);
+      bowl.scale.z = seat.scale.z = lid.scale.z = kz; g.add(neck, bowl, seat, lid);
+      break;
+    }
+    case 'closet': {   // ochiq garderob (gardirobnaya): ilgichlar, tortmalar, polkalar
+      const cm = mat(c, {roughness:.55}), h = 2.2, t = .02, n = Math.max(1, Math.round(w/.6)), sw = w/n;
+      g.add(box(w, .08, d, cm, 0, 0, 0), box(w, h, .01, cm, 0, 0, bz + .005), box(w, t, d, cm, 0, h - t, 0), box(w, t, d, cm, 0, 1.85, 0));
+      for (let i = 0; i <= n; i++) g.add(box(t, h, d, cm, -w/2 + i*sw + (i === 0 ? t/2 : i === n ? -t/2 : 0), 0, 0));
+      const cl = ['#d9cfc0', '#6b7c8f', '#b5653e', '#2f2f33', '#e8e3da', '#8a9a7b'];
+      for (let i = 0; i < n; i++){
+        const x = -w/2 + (i + .5)*sw, iw = sw - .04;
+        if (i % 2 === 0){
+          g.add(box(iw, .02, .02, chrome(), x, 1.74, 0));
+          const k = Math.max(3, Math.round(iw/.09));
+          for (let j = 0; j < k; j++){ const len = j % 3 === 1 ? 1.15 : .8; g.add(box(.035, len, d*.72, fabric(cl[(i + j) % cl.length]), x - iw/2 + .05 + j*(iw - .1)/(k - 1), 1.72 - len, 0)); }
+          g.add(box(iw, t, d - .02, cm, x, .3, 0));
+          for (let j = 0; j < 3; j++) g.add(box(.09, .06, .24, mat(['#2f2f33', '#b5653e', '#e8e3da'][j], {roughness:.6}), x - iw/2 + .12 + j*.16, .32, .05));
+        } else {
+          fronts(g, x - iw/2, .1, iw, .72, d/2 - .02, 1, 3, cm, 'bar');
+          g.add(box(iw, .72, d - .04, cm, x, .1, -.02));
+          [1.1, 1.45].forEach(y => { g.add(box(iw, t, d - .02, cm, x, y, 0)); for (let j = 0; j < 3; j++) g.add(box(iw*.26, .1, d*.6, fabric(cl[(i + j + 2) % cl.length]), x - iw/2 + iw*.17 + j*iw*.32, y + t, 0)); });
+        }
+      }
+      g.add(box(w - .04, .01, .03, glowMat('#fff7e6', '#ffe9c4', .8), 0, 1.84, d/2 - .05));
+      break;
+    }
+    case 'partition': {   // yarim devor + shisha to'siq
+      const wood = woodM(c), fr = mat('#f2ece2', {roughness:.5}), hw = 1.1, H = 2.6;
+      g.add(rbox(w, hw, d, wood, 0, 0, 0, .01));
+      g.add(box(w - .04, H - hw - .04, .01, glassMat, 0, hw + .02, 0));
+      g.add(box(w, .04, .05, fr, 0, H - .04, 0));
+      [-1, 1].forEach(s => g.add(box(.04, H - hw, .05, fr, s*(w/2 - .02), hw, 0)));
+      const k = Math.max(2, Math.round(w/.35));
+      for (let j = 1; j < k; j++) g.add(box(.025, H - hw - .04, .04, fr, -w/2 + j*w/k, hw, 0));
       break;
     }
     case 'vanity': {
@@ -2391,9 +2430,9 @@ function buildArch(){
     const leaf = box(L, dh, .04, mat(d.entry ? '#6b4f3a' : '#efe6d8', {roughness:.5}), L/2);
     const knob = new THREE.Mesh(new THREE.SphereGeometry(.03, 12, 8), metal()); knob.position.set(L - .07, Math.min(1, dh - .05), 0); knob.scale.z = 2.2;
     pivot.add(leaf, knob);
-    const ang = v => Math.atan2(-v[1], v[0]), door = {pivot, a0:ang(d.c), a1:ang(d.o), open:true};
+    const ang = v => Math.atan2(-v[1], v[0]), door = {pivot, a0:ang(d.c), a1:ang(d.o), open:!d.closed};
     if (door.a1 - door.a0 > Math.PI) door.a1 -= Math.PI*2; if (door.a0 - door.a1 > Math.PI) door.a1 += Math.PI*2;
-    door.cur = door.a1; pivot.rotation.y = door.cur; leaf.userData.door = knob.userData.door = door;
+    door.cur = door.open ? door.a1 : door.a0; pivot.rotation.y = door.cur; leaf.userData.door = knob.userData.door = door;
     doors.push(door); archUp.add(pivot);
   });
   SLIDES.forEach(({rect:[x0, y0, x1, y1], v}) => {
