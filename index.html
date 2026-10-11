@@ -464,7 +464,7 @@ const LIB = [
   {cat:'Yotoqxona', items:[
     ['bed','Ikki kishilik karavot 160',1600,2000,'#e8e0d2'],['bed','Ikki kishilik karavot 180',1800,2000,'#e8e0d2'],['bed','Bir kishilik karavot',900,2000,'#efe6d8'],
     ['crib','Chaqaloq karavoti',1250,700,'#efe3d0'],['nightstand','Tumbochka',450,400,'#5a3e2b'],['wardrobe','Garderob',1300,600,'#f2ece2'],
-    ['wardrobe','Katta garderob',2000,600,'#f2ece2'],['closet','Ochiq garderob (gardirobnaya)',1300,550,'#f2ece2'],['partition','Shisha to\u2018siq (yarim devor)',1750,80,'#c9a27a'],['dresser','Komod / trelyaj',1000,450,'#5a3e2b'],['desk','Yozuv stoli',1200,600,'#5a3e2b'],
+    ['wardrobe','Katta garderob',2000,600,'#f2ece2'],['closet','Ochiq garderob (gardirobnaya)',1300,550,'#f2ece2'],['partition','Shisha to\u2018siq (yarim devor)',1750,80,'#c9a27a'],['dresser','Komod / trelyaj',1000,450,'#5a3e2b'],['makeup','Tualet stolik (bo\u2018yanish)',1000,450,'#f2ece2'],['desk','Yozuv stoli',1200,600,'#5a3e2b'],
     ['chair','Stul',450,480,'#cdbba5'],['bookshelf','Kitob javoni',800,300,'#5a3e2b']]},
   {cat:'Mehmonxona', items:[
     ['sofa','Uch kishilik divan',2200,950,'#ede6da'],['sofa','Ikki kishilik divan',1700,900,'#ede6da'],['cornersofa','Burchak divan',2800,1700,'#ede6da'],
@@ -474,7 +474,7 @@ const LIB = [
     ['plant','Gul',500,500,'#a9c39b'],['plant','Katta gul',700,700,'#9dbb8c']]},
   {cat:'Oshxona', items:[
     ['table','Ovqat stoli',1400,850,'#5a3e2b'],['table','Katta ovqat stoli',1800,900,'#5a3e2b'],['roundtable','Dumaloq stol',1100,1100,'#5a3e2b'],
-    ['chair','Ovqat stuli',450,480,'#e6dccb'],['island','Bar stoli',1600,800,'#5a3e2b'],['island','Orolcha',1800,900,'#f1ede6'],['barstool','Bar stuli',420,420,'#5a3e2b'],
+    ['chair','Ovqat stuli',450,480,'#e6dccb'],['barcounter','Deraza oldi bar stoli',1300,450,'#5a3e2b'],['island','Bar stoli (orolcha)',1600,800,'#5a3e2b'],['island','Orolcha',1800,900,'#f1ede6'],['barstool','Bar stuli',420,420,'#5a3e2b'],
     ['counter','Oshxona stoleshnitsasi',1600,600,'#5a3e2b'],['stove','Induksion panel',600,520,'#2a2a2a'],['ksink','Rakovina',800,450,'#e1e6ea'],
     ['fridge','Muzlatgich',600,650,'#cdbba5'],['cabinet','Bufet',1600,400,'#5a3e2b']]},
   {cat:'Vanna va WC', items:[
@@ -505,17 +505,26 @@ function defaultFurniture(){ return [
   // Oshxona
   F('fridge','Muzlatgich',5550,325,600,650,0,'#cdbba5'), F('counter','Oshxona stoleshnitsasi',7775,300,3850,600,0,'#5a3e2b'),
   F('ksink','Rakovina',6250,300,800,450,0), F('stove','Induksion panel',8100,300,600,520,0), F('waterheater','Kotyol',9525,350,450,350,90),
-  F('island','Bar stoli',7800,2000,1600,800,0,'#5a3e2b'),
-  F('barstool','Bar stuli',7250,2650,420,420,0,'#cdbba5'), F('barstool','Bar stuli',7800,2650,420,420,0,'#cdbba5'), F('barstool','Bar stuli',8350,2650,420,420,0,'#cdbba5'),
+  // Deraza oldidagi bar stoli
+  F('barcounter','Deraza oldi bar stoli',9475,1525,1300,450,90,'#5a3e2b'),
+  F('barstool','Bar stuli',9000,1100,420,420,0,'#cdbba5'), F('barstool','Bar stuli',9000,1525,420,420,0,'#cdbba5'), F('barstool','Bar stuli',9000,1950,420,420,0,'#cdbba5'),
+  // 6 kishilik ovqat stoli (oshxona va zal orasida)
+  F('table','Ovqat stoli (6 kishilik)',7400,2300,1800,900,0,'#5a3e2b'),
+  F('chair','Ovqat stuli',6950,1600,450,480,0,'#e6dccb'), F('chair','Ovqat stuli',7850,1600,450,480,0,'#e6dccb'),
+  F('chair','Ovqat stuli',6950,3000,450,480,180,'#e6dccb'), F('chair','Ovqat stuli',7850,3000,450,480,180,'#e6dccb'),
+  F('chair','Ovqat stuli',6250,2300,450,480,270,'#e6dccb'), F('chair','Ovqat stuli',8550,2300,450,480,90,'#e6dccb'),
   // Mehmonxona
   F('rug','Gilam',7650,5200,1500,2400,0,'#f3eee6'), F('tvstand','TV konsoli',6575,5100,1800,450,270,'#5a3e2b'), F('tv','TV 65"',6410,5100,1450,80,270),
   F('sofa','Divan',8925,5200,2200,950,90,'#ede6da'), F('coffeetable','Jurnal stoli',7600,5200,1000,600,90,'#5a3e2b'),
-  F('armchair','Baxmal kreslo',6925,3675,750,750,270,'#7a2e2e'), F('plant','Katta gul',9400,6900,700,700), F('floorlamp','Torsher',9450,3900,450,450,0,'#b08d57'),
+  F('armchair','Baxmal kreslo',7050,3800,750,750,270,'#7a2e2e'), F('plant','Katta gul',9400,6900,700,700), F('floorlamp','Torsher',9450,3900,450,450,0,'#b08d57'),
   // Yotoqxona
   F('closet','Ochiq garderob',1050,2925,1300,550,0,'#f2ece2'), F('closet','Ochiq garderob (tortmali)',275,3500,900,550,270,'#f2ece2'),
   F('partition','Shisha to\u2018siq',875,4020,1750,80,0,'#c9a27a'),
   F('bed','Ikki kishilik karavot 160',1050,4950,1600,2000,270,'#e8e0d2'), F('nightstand','Tumbochka',200,6075,450,400,270,'#5a3e2b'),
   F('acwall','Konditsioner',125,6700,900,250,270),
+  // Ish zonasi deraza oldida va bo'yanish stoli
+  F('desk','Ish stoli (deraza oldida)',1500,6925,1300,550,180,'#5a3e2b'), F('officechair','Ish kreslosi',1500,6300,560,560,0,'#e6dccb'),
+  F('makeup','Tualet stolik (bo\u2018yanish)',3225,5200,1000,450,90,'#f2ece2'),
   // Bolalar xonasi
   F('bed','Bolalar karavoti',4000,5700,900,2000,0,'#efe6d8'), F('wardrobe','Garderob',5450,3350,1600,600,0,'#f2ece2'),
   F('desk','Yozuv stoli',5525,6900,1450,600,180,'#5a3e2b'), F('chair','Stul',5525,6350,450,480,0), F('acwall','Konditsioner',5725,7075,900,250,180),
@@ -527,7 +536,7 @@ function defaultState(){
   return {furniture:defaultFurniture(), rooms, demolished:[], measures:[]};
 }
 
-const STORE = 'kv69-design-v2';
+const STORE = 'kv69-design-v4';
 function load(){
   try { const s = JSON.parse(localStorage.getItem(STORE)); if (s && Array.isArray(s.furniture)) return fixState(s); } catch(e) {}
   return null;
@@ -646,6 +655,8 @@ function furnSVG(t,w,d,c){
       return s;
     }
     case 'partition': return rc(x,y,w,d,c) + ln(x,0,x+w,0,'stroke-dasharray="60 40"');
+    case 'makeup': return rc(x,y,w,d,c,'rx="20"') + ec(0,y+45,w*.3,40,'#dfe8ec') + `<circle cy="${d/2+320}" r="200" fill="#e6dccb" ${ST}/>`;
+    case 'barcounter': return rc(x,y,w,d,c,'rx="20"') + ln(x+40,y+d-60,x+w-40,y+d-60,'stroke-dasharray="60 40"');
     case 'cabinet': case 'shoecab': return rc(x,y,w,d,c) + ln(x,y+d,x+w,y);
     case 'dresser': return rc(x,y,w,d,c,'rx="20"') + rc(x+w*.2,y,w*.6,55,'#dfe9ee') + ec(0,d/2+180,160,140,shade(c,.9));
     case 'desk': return rc(x,y,w,d,c,'rx="20"') + rc(-w*.18,y+50,w*.36,45,'#555') + rc(-w*.14,y+d*.45,w*.28,d*.28,'#f4f4f4','rx="10"');
@@ -863,14 +874,14 @@ const ENG = {
     [5300,6980,850,200,'Konditsioner'],[7900,150,400,300,'Plita 6 mm²'],[9450,150,250,400,'Kotyol']],
   spots: [[1143,571],[2000,571],[2086,2000],[3000,2300],[4000,2300],[5000,2300],[3300,1100],[4300,1100],[1000,1850],
     [6286,1100],[7429,1100],[8571,1100],[8086,7900],[60,3830],[60,6080]],
-  pendants: [[7800,2125],[7600,5200],[1900,4950],[4900,5200]],
+  pendants: [[7400,2300],[7600,5200],[1900,4950],[4900,5200]],
   led: ['M5850 650 L9650 650','M9600 200 L9600 7100','M6330 4200 L6330 6000','M200 7100 L3400 7100','M3650 7100 L6200 7100','M2780 900 L2780 1600','M650 400 L650 900'],
-  switches: [[2150,150],[4500,1850],[1650,1400],[5350,1850,'5 tugma: oshxona, stol, zal, parda LED, TV LED'],[5350,2700],[6700,6950],[3250,3050],[350,3650],[350,6200],[4700,3150]],
+  switches: [[2150,150],[4500,1850],[1650,1400],[5350,1850,'5 tugma: oshxona, stol, bar, zal LED, TV LED'],[5350,2700],[6700,6950],[3250,3050],[350,3650],[350,6200],[4700,3150]],
   cold: ['M5000 371 L5000 400','M5150 450 L6171 450 L6171 514','M5150 500 L9400 500 L9400 1086','M4550 470 L4400 470','M4600 580 L4600 800 L3250 800 L3250 1250','M5100 580 L5100 900','M4900 580 L4900 2343 L1714 2343 L1714 2057 L714 2057'],
   hot: ['M9543 1086 L9543 1314 L5260 1314 L5260 560 L5150 560','M6314 1314 L6314 514','M4550 540 L4400 540','M4680 580 L4680 720 L3330 720 L3330 1200','M4820 580 L4820 2429 L1800 2429 L1800 2143 L714 2143'],
   sewer: ['M6229 600 L6229 680 L5300 680 L5300 330 L5100 330','M4300 400 L4300 650 L5000 650 L5000 386','M3200 1400 L3450 1400 L3450 1620 L5300 1620 L5300 680','M4800 1450 L4800 1620','M400 2343 L400 2700 L200 2700'],
-  heat: ['M9600 1086 L9600 1486 L5257 1486 L5257 1829 L5143 1829','M4686 1943 L4686 2514 L2857 2514 L2857 6914 L2114 6914','M5029 1943 L5029 2629 L6171 2629 L6171 6914 L5057 6914','M5086 2000 L5086 2286 L6514 2286 L6514 4000 L9330 4000 L9330 4343','M6514 2857 L9330 2857 L9330 2143'],
-  radiators: [[857,6850,1229,130],[3800,6850,1229,130],[9330,914,130,1229],[9330,4343,130,1229],[3250,1560,300,90]],
+  heat: ['M9600 1086 L9600 1486 L5257 1486 L5257 1829 L5143 1829','M4686 1943 L4686 2514 L2857 2514 L2857 6914 L2114 6914','M5029 1943 L5029 2629 L6171 2629 L6171 6914 L5057 6914','M5086 2000 L5086 2286 L6514 2286 L6514 4000 L9330 4000 L9330 4343','M6514 2857 L9330 2857'],
+  radiators: [[857,6850,1229,130],[3800,6850,1229,130],[9330,2650,130,1200],[9330,4343,130,1229],[3250,1560,300,90]],
   risers: [[5000,286],[143,2743]],
   loops: [['Kontur 1',7400,800],['Kontur 2',2150,1150],['Kontur 3',3600,500]],
 };
@@ -2143,6 +2154,27 @@ function buildFurniture(f){
         }
       }
       g.add(box(w - .04, .01, .03, glowMat('#fff7e6', '#ffe9c4', .8), 0, 1.84, d/2 - .05));
+      break;
+    }
+    case 'makeup': {   // bo'yanish uchun tualet stolik: oyna, LED, tortma, pufik
+      const tm = mat(c, {roughness:.5}), gold = mat('#b08d57', {metalness:.7, roughness:.3}), th = .76;
+      [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([a, b]) => g.add(box(.035, th - .04, .035, gold, a*(w/2 - .04), 0, b*(d/2 - .04))));
+      g.add(rbox(w, .04, d, tm, 0, th - .04, 0, .008), box(w - .1, .12, d - .06, tm, 0, th - .16, 0));
+      fronts(g, -w/2 + .05, th - .16, w - .1, .12, d/2 - .03, 2, 1, tm, 'bar');
+      const mw = Math.min(.8, w*.75), mirror = mesh(new THREE.CylinderGeometry(mw/2, mw/2, .02, 48), mat('#dfe8ec', {metalness:.9, roughness:.05}));
+      mirror.rotation.x = Math.PI/2; mirror.scale.x = .8; mirror.position.set(0, th + .55, bz + .02); g.add(mirror);
+      const halo = mesh(new THREE.TorusGeometry(mw/2 + .01, .012, 8, 48), glowMat('#fff7e6', '#ffe2b0', 1)); halo.scale.x = .8; halo.position.set(0, th + .55, bz + .03); g.add(halo);
+      vase(g, w*.32, th, -.05, .04, .16, '#e9e2d6', R);
+      g.add(cyl(.05, .05, .1, mat('#d9b8a8', {roughness:.4}), -w*.3, th, -.04, 20), cyl(.03, .03, .14, mat('#2f2f33', {roughness:.4}), -w*.2, th, -.08, 20));
+      const pouf = cyl(.2, .2, .44, fabric('#e6dccb'), 0, 0, d/2 + .32, 32); g.add(pouf, cyl(.2, .2, .03, fabric('#d9cfc0'), 0, .44, d/2 + .32, 32));
+      break;
+    }
+    case 'barcounter': {   // devorga mahkamlangan bar stoli (deraza oldida)
+      const wood = woodM(c), bm = blackMetal();
+      g.add(rbox(w, .04, d, wood, 0, 1.01, 0, .008));
+      [-1, 1].forEach(s => g.add(box(.04, 1.01, .04, bm, s*(w/2 - .1), 0, d/2 - .08), box(.04, .04, d - .1, bm, s*(w/2 - .1), .99, -.02)));
+      g.add(box(w - .2, .02, .02, bm, 0, .25, d/2 - .08));
+      vase(g, w*.3, 1.05, -.05, .05, .2, '#e9e2d6', R);
       break;
     }
     case 'partition': {   // yarim devor + shisha to'siq
