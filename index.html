@@ -429,8 +429,8 @@ const WINS = [
 // Eshiklar: o'yiq, sharnir nuqtasi, yopiq yo'nalish, ochilish yo'nalishi, eni
 const DOORS = [
   {name:'Kirish eshigi',rect:[980,-240,1970,0],h:[1970,-240],c:[-1,0],o:[0,-1],len:990,entry:true},
-  {name:'Vanna eshigi',rect:[3600,1650,4400,1750],h:[3600,1750],c:[1,0],o:[0,1],len:800},
-  {name:'WC eshigi',rect:[1450,1500,1550,2300],h:[1550,2300],c:[0,-1],o:[1,0],len:800},
+  {name:'Vanna eshigi',rect:[3600,1650,4400,1750],h:[4400,1650],c:[-1,0],o:[0,-1],len:800},
+  {name:'WC eshigi',rect:[1450,1500,1550,2300],h:[1450,2300],c:[0,-1],o:[-1,0],len:800},
   {name:'Yotoqxona eshigi',rect:[2400,2850,3300,2950],h:[3300,2950],c:[-1,0],o:[0,1],len:900},
   {name:'Bolalar xonasi eshigi',rect:[3700,2950,4600,3050],h:[3700,3050],c:[1,0],o:[0,1],len:900},
 ];
@@ -1668,7 +1668,7 @@ function init(){
     const tap = downAt && Math.hypot(e.clientX-downAt[0], e.clientY-downAt[1]) <= TAP;
     if (look?.id === e.pointerId){
       look = null;
-      if (tap){ const h = pick(e); if (h?.door && h.dist < 3.5) h.door.open = !h.door.open; }   // 漫游时点门开关
+      if (tap){ const d = pickDoor(e, 3.5); if (d) d.open = !d.open; }   // 漫游时点门开关
       return;
     }
     if (anim || opt.mode !== 'orbit' || !tap) return;
@@ -2560,6 +2560,14 @@ function pick(e){
   }
   return null;
 }
+// Eshikni topish: oldida devor qirrasi yoki romi bo'lsa ham, yaqin masofadagi eshik tabaqasini topadi
+function pickDoor(e, maxD){
+  if (!e) ptr.set(0, 0);
+  else { const r = renderer.domElement.getBoundingClientRect(); ptr.set((e.clientX - r.left)/r.width*2 - 1, -(e.clientY - r.top)/r.height*2 + 1); }
+  ray.setFromCamera(ptr, camera);
+  for (const h of ray.intersectObjects([archUp], true)) if (h.object.userData.door && h.distance < maxD) return h.object.userData.door;
+  return null;
+}
 // 屏幕点 → 地面（y = 0）上的户型坐标 mm；s = 该处每 mm 对应的屏幕像素，用于拖放时的幽灵图大小
 const ground0 = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
 function groundAt(x, y){
@@ -2669,7 +2677,7 @@ function stepWalk(dt){
 addEventListener('keydown', e => {
   if (!active || e.target.matches('input,select,textarea')) return;
   keys[e.code] = true;
-  if (opt.mode === 'walk' && e.code === 'KeyE'){ const h = pick(); if (h?.door && h.dist < 2.5) h.door.open = !h.door.open; }
+  if (opt.mode === 'walk' && e.code === 'KeyE'){ const d = pickDoor(null, 2.5); if (d) d.open = !d.open; }
 });
 addEventListener('keyup', e => keys[e.code] = false);
 
