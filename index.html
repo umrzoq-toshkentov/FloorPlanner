@@ -259,6 +259,7 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
       <button class="btn" id="undo" title="撤销 (Ctrl+Z)" data-en-title="Undo (Ctrl+Z)" data-en="Undo">撤销</button>
       <button class="btn" id="redo" title="重做 (Ctrl+Shift+Z)" data-en-title="Redo (Ctrl+Shift+Z)" data-en="Redo">重做</button>
       <button class="btn danger" id="clearAll" title="清空所有家具家电（可撤销）" data-en-title="Remove all furniture and appliances (undoable)" data-en="Clear">清空布置</button>
+      <button class="btn" id="autoDesign" title="Barcha mebelni tayyor dizayn bo'yicha joylashtirish (Undo bilan qaytariladi)" style="color:var(--accent);font-weight:600">✨ Auto dizayn</button>
     </div>
     <div class="grp only2d" id="layers">
       <button class="btn chip on" data-layer="dims" data-en="Dims">尺寸</button>
@@ -1555,6 +1556,10 @@ $('#fileIn').onchange = e => {
     catch(err){ toast(tr('文件格式不正确', 'Invalid file format')); }
   });
   e.target.value = '';
+};
+$('#autoDesign').onclick = () => {
+  const b = snap(); state.furniture = defaultFurniture(); ui.sel = null; commit(b); renderAll();
+  toast("Tayyor dizayn joylashtirildi — kerak bo'lsa Undo bilan qaytaring");
 };
 $('#reset').onclick = () => { if (confirm(tr('恢复为默认设计方案？（可撤销）', 'Reset to the default design? (undoable)'))){ const b = snap(); state = defaultState(); ui.sel = null; commit(b); renderAll(); } };
 // 横竖屏切换、表头换行等都会改变画布尺寸；尺寸从 0 恢复（如首次布局）时重新适应窗口
