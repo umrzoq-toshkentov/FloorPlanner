@@ -428,7 +428,7 @@ const WINS = [
 ];
 // Eshiklar: o'yiq, sharnir nuqtasi, yopiq yo'nalish, ochilish yo'nalishi, eni
 const DOORS = [
-  {name:'Kirish eshigi',rect:[980,-240,1970,0],h:[1970,0],c:[-1,0],o:[0,1],len:990,entry:true},
+  {name:'Kirish eshigi',rect:[980,-240,1970,0],h:[1970,-240],c:[-1,0],o:[0,-1],len:990,entry:true},
   {name:'Vanna eshigi',rect:[3600,1650,4400,1750],h:[3600,1750],c:[1,0],o:[0,1],len:800},
   {name:'WC eshigi',rect:[1450,1500,1550,2300],h:[1550,2300],c:[0,-1],o:[1,0],len:800},
   {name:'Yotoqxona eshigi',rect:[2400,2850,3300,2950],h:[3300,2950],c:[-1,0],o:[0,1],len:900},
@@ -763,8 +763,8 @@ function renderOpenings(){
     else { const L = x1-x0, m = (y0+y1)/2; s += `<rect x="${x0}" y="${m-45}" width="${L*.55}" height="40" fill="#fff" ${DS}/><rect x="${x1-L*.55}" y="${m+5}" width="${L*.55}" height="40" fill="#fff" ${DS}/>`; }
   });
   // 入户标识
-  s += `<path d="M1475 -660V-290M1375 -430L1475 -280L1575 -430" fill="none" stroke="#b5653a" stroke-width="2" vector-effect="non-scaling-stroke"/>
-        <text x="1640" y="-360" font-size="200" fill="#b5653a">${tr('入户','Entry')}</text>`;
+  s += `<path d="M2450 -660V-290M2350 -430L2450 -280L2550 -430" fill="none" stroke="#b5653a" stroke-width="2" vector-effect="non-scaling-stroke"/>
+        <text x="2600" y="-360" font-size="200" fill="#b5653a">${tr('入户','Entry')}</text>`;
   $('#gOpen').innerHTML = s;
 }
 
@@ -2630,7 +2630,7 @@ function setMode(m){
     window.select(null);
     if (opt.cut < H){ opt.cut = H; syncCutBtns(); sync(); }
     orbit.enabled = false; fly = null;
-    camera.position.set(wx(1475), 1.6, wz(-700)); camera.lookAt(wx(1475), 1.5, wz(2500));   // 入户门外
+    camera.position.set(wx(1475), 1.6, wz(-1400)); camera.lookAt(wx(1475), 1.5, wz(2500));   // 入户门外
     $('#walkOverlay').style.display = 'flex';
     syncHint3d();
   } else {
